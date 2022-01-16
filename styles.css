@@ -24,3 +24,12 @@ div.main-input {
     max-lines: 1;
     /* width: 100%; */
 }
+
+table, th, tr, td {
+    border: 1px solid rgb(232, 232, 232);
+    margin-top: 15px;
+    padding: 7px;
+    border-collapse: collapse;
+    vertical-align: middle;
+    border-style: solid;
+}

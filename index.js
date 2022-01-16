@@ -78,6 +78,7 @@ function parseCommand(cmd) {
                 for (var i = 0; i < currentDatabase.length; i++) {
                     if (currentDatabase[i].name == cmds[3]) {
                         console.log(currentDatabase[i]);
+                        document.getElementById("tables-div").innerHTML += getHTMLTable(currentDatabase[i]);
                         break;
                     }
                 }
@@ -89,6 +90,26 @@ function parseCommand(cmd) {
 document.getElementById("main-input").addEventListener("keydown", (e) => {
     if (e.key != "Enter") {return;}
     e.preventDefault();
-    parseCommand(e.target.innerText);
+    var cmd = e.target.innerText;
     e.target.innerText = "";
+    parseCommand(cmd);
 });
+
+function getHTMLTable(tableObj) {
+    var tableHTML = "<table>";
+    
+    tableObj.attributes.forEach((a) => {
+        tableHTML += `<th>${a}</th>`
+    });
+
+    tableObj.entries.forEach((entry) => {
+        tableHTML += "<tr>";
+        entry.forEach((value) => {
+            tableHTML += `<td>${value}</td>`;
+        });
+        tableHTML += "</tr>";
+    });
+
+    tableHTML += "</table>";
+    return tableHTML;
+}
