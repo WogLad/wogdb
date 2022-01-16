@@ -85,3 +85,10 @@ function parseCommand(cmd) {
         break;
     }
 }
+
+document.getElementById("main-input").addEventListener("keydown", (e) => {
+    if (e.key != "Enter") {return;}
+    e.preventDefault();
+    parseCommand(e.target.innerText);
+    e.target.innerText = "";
+});

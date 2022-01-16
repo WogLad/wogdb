@@ -1,3 +1,26 @@
 body {
+    font-family: monospace;
+    font-size: medium;
     background-color: #121212;
+    color: rgb(232, 232, 232);
+}
+
+[contenteditable] {
+    border: 2px solid #000;
+    line-height: 1.4em;
+    -webkit-appearance: textfield;
+    appearance: textfield
+}
+
+div.main-input {
+    padding: 3px;
+	border: 2px solid #000000;
+    border-radius: 7px;
+    background-color: #242424;
+    /* width: 380px; */
+    overflow-x: hidden;
+    overflow-y: auto;
+    text-align: justify;
+    max-lines: 1;
+    /* width: 100%; */
 }
