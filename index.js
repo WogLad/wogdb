@@ -40,7 +40,7 @@ function parseCommand(cmd) {
 
                 console.log(values);
 
-                databases[currentDatabase].push(new Table(
+                currentDatabase.push(new Table(
                     cmds[2],
                     values.replace("(", "").replace(")", "").split(", ")
                 ));
@@ -48,11 +48,39 @@ function parseCommand(cmd) {
         break;
 
         case "use":
-            if (cmds[1] in currentDatabase) {
-                currentDatabase = cmds[1];
+            if (cmds[1] in databases) {
+                currentDatabase = databases[cmds[1]];
             }
             else {
                 console.log("No such database exists");
+            }
+        break;
+
+        case "insert":
+            if (cmds[1] == "into" && currentDatabase != null && cmds.length >= 4) {
+                for (var i = 0; i < currentDatabase.length; i++) {
+                    if (currentDatabase[i].name == cmds[2]) {
+                        var values = cmd.replace(("insert into " + cmds[2] + " values"), "");
+                        if (values.startsWith(" ")) {
+                            values = values.replace(" ", "");
+                        }
+                        values = values.replace("(", "").replace(")", "").split(", ");
+
+                        currentDatabase[i].entries.push(values);
+                        break;
+                    }
+                }
+            }
+        break;
+
+        case "select":
+            if (cmds[1] == "*" && cmds[2] == "from") {
+                for (var i = 0; i < currentDatabase.length; i++) {
+                    if (currentDatabase[i].name == cmds[3]) {
+                        console.log(currentDatabase[i]);
+                        break;
+                    }
+                }
             }
         break;
     }
