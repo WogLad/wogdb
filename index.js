@@ -84,6 +84,23 @@ function parseCommand(cmd) {
                 }
             }
         break;
+
+        case "show":
+            if (cmds[1] == "databases") {
+                var table = new Table("List of Databases", ["List of Databases"]);
+                Object.keys(databases).forEach((db) => {
+                    table.entries.push([db]);
+                });
+                document.getElementById("tables-div").innerHTML += getHTMLTable(table);
+            }
+            else if (cmds[1] == "tables" && currentDatabase != null) {
+                var table = new Table("List of Tables", ["List of Tables"]);
+                currentDatabase.forEach((tableName) => {
+                    table.entries.push([tableName.name]);
+                });
+                document.getElementById("tables-div").innerHTML += getHTMLTable(table);
+            }
+        break;
     }
 
     localStorage.setItem("saveData", JSON.stringify(databases));
