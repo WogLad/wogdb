@@ -74,13 +74,37 @@ function parseCommand(cmd) {
         break;
 
         case "select":
-            if (cmds[1] == "*" && cmds[2] == "from") {
-                for (var i = 0; i < currentDatabase.length; i++) {
-                    if (currentDatabase[i].name == cmds[3]) {
+            for (var i = 0; i < currentDatabase.length; i++) {
+                if (currentDatabase[i].name == cmds[3]) {
+                    if (cmds[1] == "*" && cmds[2] == "from") {
                         console.log(currentDatabase[i]);
                         document.getElementById("tables-div").innerHTML += getHTMLTable(currentDatabase[i]);
-                        break;
                     }
+                    else {
+                        var attributes = cmds[1].replace("(", "").replace(")", "").split(",");
+                        var attributesComparer = [];
+                        for (var j = 0; j < currentDatabase[i].attributes.length; j++) {
+                            if (attributes.includes(currentDatabase[i].attributes[j])) {
+                                attributesComparer[j] = currentDatabase[i].attributes[j];
+                            }
+                            else {
+                                attributesComparer[j] = null;
+                            }
+                        }
+                        var table = new Table(currentDatabase[i].name, currentDatabase[i].attributes.filter((a) => attributes.includes(a)));
+                        currentDatabase[i].entries.forEach((e) => {
+                            var entry = []
+                            for (var j = 0; j < e.length; j++) {
+                                if (attributesComparer[j] != null) {
+                                    entry.push(e[j]);
+                                }
+                            }
+                            table.entries.push(entry);
+                        });
+                        console.log(table);
+                        document.getElementById("tables-div").innerHTML += getHTMLTable(table);
+                    }
+                    break;
                 }
             }
         break;
