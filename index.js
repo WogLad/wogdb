@@ -85,6 +85,8 @@ function parseCommand(cmd) {
             }
         break;
     }
+
+    localStorage.setItem("saveData", JSON.stringify(databases));
 }
 
 document.getElementById("main-input").addEventListener("keydown", (e) => {
@@ -113,3 +115,18 @@ function getHTMLTable(tableObj) {
     tableHTML += "</table>";
     return tableHTML;
 }
+
+function parseSaveData() {
+    var saveData = JSON.parse(localStorage.getItem("saveData"));
+    Object.keys(saveData).forEach((db) => {
+        var tables = [];
+        saveData[db].forEach((tb) => {
+            var table = new Table(tb.name, tb.attributes);
+            table.entries = tb.entries;
+            tables.push(table);
+        });
+        databases[db] = tables;
+    });
+}
+
+parseSaveData();
